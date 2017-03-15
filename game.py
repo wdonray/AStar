@@ -47,17 +47,15 @@ for n in NODES:
         for nods in NODES:
             if n_.value[0] == nods.value[0] and n_.value[1] == nods.value[1]:
                 n.adjacents.append(nods)
-NODES[1].walkable = False
-NODES[10].walkable = False
+NODES[13].walkable = False
 NODES[14].walkable = False
+NODES[15].walkable = False
 NODES[23].walkable = False
 NODES[25].walkable = False
 NODES[33].walkable = False
 
 STARTNODE = NODES[0]
 ENDNODE = NODES[24]
-
-STARTNODE.info()
 
 STARTNODE.start = True
 ENDNODE.end = True
@@ -66,7 +64,7 @@ while not DONE:
     AStar.astar(STARTNODE, ENDNODE)
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    CLOCK.tick(5)
+    CLOCK.tick(1)
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             DONE = True  # Flag that we are DONE so we exit this loop

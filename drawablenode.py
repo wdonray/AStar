@@ -1,9 +1,5 @@
+"""DrawableNode"""
 import pygame
-import math
-import graph
-from graph import Graph
-from graph import Node
-
 
 class DrawableNode(object):
     '''drawable node'''
@@ -18,22 +14,22 @@ class DrawableNode(object):
         self._start = False
         self._end = False
         self._check = False
-        self._g = 0
-        self._h = 0
-        self._f = 0
+        self._gcost = 0
+        self._hcost = 0
+        self._fcost = 0
 
         # drawing vars
-        SIZE = 30
-        self.width = SIZE
-        self.height = SIZE
-        self.id = id
+        size = 30
+        self.width = size
+        self.height = size
+        self.identification = id
         self.index = (posx, posy)
         self.value = self.index
-        self.x = (5 + self.width) * posx + 5
-        self.y = (5 + self.height) * posy + 5
+        self.xpos = (5 + self.width) * posx + 5
+        self.ypos = (5 + self.height) * posy + 5
         self.pos = (self.width * posx, self.height * posy)
-        self.screenpos = (self.x, self.y)
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.screenpos = (self.xpos, self.ypos)
+        self.rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
         self.surface = pygame.Surface((self.width, self.height))
         self.dirty = False
         self._color = (125, 255, 255)
@@ -103,41 +99,43 @@ class DrawableNode(object):
             self.color = red
 
     @property
-    def f(self):
-        return self._f
+    def f_cost(self):
+        """F Cost"""
+        return self._fcost
 
     @property
-    def g(self):
-        return self._g
+    def g_cost(self):
+        """G Cost"""
+        return self._gcost
 
     @property
-    def h(self):
-        return self._h
+    def h_cost(self):
+        """H Cost"""
+        return self._hcost
 
-    @f.setter
-    def f(self, value):
-        self._f = value
+    @f_cost.setter
+    def f_cost(self, value):
+        self._fcost = value
 
-    @g.setter
-    def g(self, value):
-        self._g = value
-        self._f = self._g + self._h
+    @g_cost.setter
+    def g_cost(self, value):
+        self._gcost = value
+        self._fcost = self._gcost + self._hcost
 
-    @h.setter
-    def h(self, value):
-        self._h = value
-        self._f = self._g + self._h
+    @h_cost.setter
+    def h_cost(self, value):
+        self._hcost = value
+        self._fcost = self._gcost + self._hcost
 
     @property
     def color(self):
+        """Color"""
         return self._color
 
     @color.setter
     # manual setting of colors will mark them dirty so they will stay
     def color(self, value):
-        white = (255, 255, 255)
         red = (255, 0, 0)
-
         if value is red:
             self._color = value
             self.dirty = True
@@ -147,14 +145,16 @@ class DrawableNode(object):
         self._color = value
 
     def info(self):
+        """Info Print"""
         print("pos = ", self.pos)
         ids = ""
         for i in self.adjacents:
-            ids += " " + str(i.id)
+            ids += " " + str(i.identification)
         print("neighbors:", ids)
         print("index: ", self.index)
 
     def draw(self, screen, font, init=True, text=True):
+        """Draw"""
         # pygame.draw.rect(screen, self._color, self.rect)
         self.surface.fill(self._color)
         screen.blit(self.surface, self.screenpos)
@@ -169,8 +169,8 @@ class DrawableNode(object):
             textg = font.render("" + str(), True, (1, 1, 1))
 
             # set it's position/parent
-            textfpos = (self.x, self.y)  # top left
-            textgpos = (self.x, self.y + self.height - 10)  # bot left
+            textfpos = (self.xpos, self.ypos)  # top left
+            textgpos = (self.xpos, self.ypos + self.height - 10)  # bot left
 
             # center it
 

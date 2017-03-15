@@ -7,6 +7,7 @@ def retrace(node):
     while node.parent is not None:
         path.append(node)
         node = node.parent
+        node.check = True
     return path
 
 
@@ -25,12 +26,12 @@ def astar(start, goal):
     camefrom = []
     closed = []
     open_ = []
-    start.h = 0
-    start.g = 0
-    start.f = start.g + start.h
+    start.h_cost = 0
+    start.g_cost = 0
+    start.f_cost = start.g_cost + start.h_cost
     open_.append(start)
     while open_ is not None:
-        open_ = sorted(open_, key=lambda x: x.f)
+        open_ = sorted(open_, key=lambda x: x.f_cost)
         current = open_[0]
         open_.remove(current)
         closed.append(current)
@@ -40,12 +41,12 @@ def astar(start, goal):
         for node in current.adjacents:
             if node in closed or node.walkable is False:
                 continue
-            tentative_g = node.g + dist(current, node)
+            tentative_g = node.g_cost + dist(current, node)
             if node not in open_:
                 open_.append(node)
-            elif tentative_g >= node.g:
+            elif tentative_g >= node.g_cost:
                 continue
             node.parent = current
-            node.g = tentative_g
-            node.h = mhd(node, goal)
-            node.f = node.g + node.h
+            node.g_cost = tentative_g
+            node.h_cost = mhd(node, goal)
+            node.f_cost = node.g_cost + node.h_cost
