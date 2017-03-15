@@ -40,22 +40,33 @@ DONE = False
 CLOCK = pygame.time.Clock()
 
 pygame.font.init()
-FONT1 = pygame.font.Font(None, 11)
+FONT1 = pygame.font.Font(None, 12)
 FONT2 = pygame.font.Font(None, 28)
 for n in NODES:
     for n_ in graphs.get_neighbors(n, SEARCH_SPACE):
         for nods in NODES:
             if n_.value[0] == nods.value[0] and n_.value[1] == nods.value[1]:
                 n.adjacents.append(nods)
-NODES[3].walkable = False
+NODES[1].walkable = False
+NODES[10].walkable = False
+NODES[14].walkable = False
+NODES[23].walkable = False
+NODES[25].walkable = False
+NODES[33].walkable = False
+
 STARTNODE = NODES[0]
+ENDNODE = NODES[24]
+
+STARTNODE.info()
+
+STARTNODE.start = True
+ENDNODE.end = True
 
 while not DONE:
-
-    AStar.astar(NODES[0], NODES[24])
+    AStar.astar(STARTNODE, ENDNODE)
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    CLOCK.tick(2)
+    CLOCK.tick(5)
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             DONE = True  # Flag that we are DONE so we exit this loop

@@ -15,6 +15,9 @@ class DrawableNode(object):
         self.adjacents = []
         self.parent = None
         self._walkable = True
+        self._start = False
+        self._end = False
+        self._check = False
         self._g = 0
         self._h = 0
         self._f = 0
@@ -36,6 +39,52 @@ class DrawableNode(object):
         self._color = (125, 255, 255)
 
     # properties
+
+    @property
+    def check(self):
+        """check"""
+        return self._check
+
+    @check.setter
+    def check(self, value):
+        white = (255, 255, 255)
+        maroon = (128, 0, 0)
+        self._check = value
+        if value is False:
+            self.color = white
+        else:
+            self.color = maroon
+
+    @property
+    def start(self):
+        """start"""
+        return self._start
+
+    @start.setter
+    def start(self, value):
+        white = (255, 255, 255)
+        green = (0, 255, 0)
+        self._start = value
+        if value is False:
+            self.color = white
+        else:
+            self.color = green
+
+    @property
+    def end(self):
+        """end"""
+        return self._end
+
+    @end.setter
+    def end(self, value):
+        white = (255, 255, 255)
+        blue = (0, 203, 254)
+        self._end = value
+        if value is False:
+            self.color = white
+        else:
+            self.color = blue
+
     @property
     def walkable(self):
         """walkable"""
@@ -49,9 +98,9 @@ class DrawableNode(object):
         # if it's set to walkable change to white
         # this will mark it as undirty
         if value:
-            self.color = (255, 255, 255)
+            self.color = white
         else:
-            self.color = (255, 0, 0)
+            self.color = red
 
     @property
     def f(self):
@@ -116,9 +165,8 @@ class DrawableNode(object):
 
             # render the text
 
-            textf = font.render("F= " + str(self.f), True, (1, 1, 1))
-            textg = font.render("G= " + str(self.g) +
-                                "H= " + str(self.h), True, (1, 1, 1))
+            textf = font.render("P= " + str(self.index), True, (1, 1, 1))
+            textg = font.render("" + str(), True, (1, 1, 1))
 
             # set it's position/parent
             textfpos = (self.x, self.y)  # top left

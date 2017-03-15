@@ -77,5 +77,6 @@ def test_graph(graph):
     for neighbor in neighbors:
         neighbor.print_info()
 
+
 if __name__ == "__main__":
     test_graph(Graph([3, 3]))

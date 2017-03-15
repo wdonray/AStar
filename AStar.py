@@ -14,6 +14,7 @@ def dist(curr, node):
     '''Distance'''
     return 10 if curr.index[0] == node.index[0] or curr.index[1] == node.index[1] else 14
 
+
 def mhd(node, goal):
     '''Manhattan Distance'''
     return (abs(goal.index[0] - node.index[0]) + abs(goal.index[1] - node.index[1])) * 10
@@ -35,7 +36,7 @@ def astar(start, goal):
         closed.append(current)
         if current == goal:
             camefrom = retrace(current)
-            break
+            return camefrom
         for node in current.adjacents:
             if node in closed or node.walkable is False:
                 continue
