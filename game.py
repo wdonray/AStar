@@ -1,5 +1,6 @@
 # Import a library of functions called 'pygame'
 import pygame
+import AStar
 import graph as graphs
 from graph import Graph
 from graph import Node
@@ -39,19 +40,22 @@ DONE = False
 CLOCK = pygame.time.Clock()
 
 pygame.font.init()
-FONT1 = pygame.font.Font(None, 14)
+FONT1 = pygame.font.Font(None, 11)
 FONT2 = pygame.font.Font(None, 28)
-I_ = 0
-X_ = I_
+for n in NODES:
+    for n_ in graphs.get_neighbors(n, SEARCH_SPACE):
+        for nods in NODES:
+            if n_.value[0] == nods.value[0] and n_.value[1] == nods.value[1]:
+                n.adjacents.append(nods)
+NODES[3].walkable = False
+STARTNODE = NODES[0]
+
 while not DONE:
 
+    AStar.astar(NODES[0], NODES[24])
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    CLOCK.tick(10)
-    NODES[X_].color = (0, 0, 0)
-    NODES[I_].color = GREEN
-    X_ = I_
-    I_ += 1
+    CLOCK.tick(2)
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             DONE = True  # Flag that we are DONE so we exit this loop

@@ -4,6 +4,7 @@ import graph
 from graph import Graph
 from graph import Node
 
+
 class DrawableNode(object):
     '''drawable node'''
 
@@ -24,6 +25,7 @@ class DrawableNode(object):
         self.height = SIZE
         self.id = id
         self.index = (posx, posy)
+        self.value = self.index
         self.x = (5 + self.width) * posx + 5
         self.y = (5 + self.height) * posy + 5
         self.pos = (self.width * posx, self.height * posy)
@@ -31,11 +33,12 @@ class DrawableNode(object):
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.surface = pygame.Surface((self.width, self.height))
         self.dirty = False
-        self._color =  (125, 255, 255)
+        self._color = (125, 255, 255)
 
     # properties
     @property
     def walkable(self):
+        """walkable"""
         return self._walkable
 
     @walkable.setter
@@ -127,5 +130,3 @@ class DrawableNode(object):
             if init and text:
                 screen.blit(textf, textfpos)
                 screen.blit(textg, textgpos)
-
-   
