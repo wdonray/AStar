@@ -54,24 +54,29 @@ NODES[23].walkable = False
 NODES[25].walkable = False
 NODES[33].walkable = False
 
-STARTNODE = NODES[0]
-ENDNODE = NODES[24]
 
-STARTNODE.start = True
-ENDNODE.end = True
 
 while not DONE:
-    AStar.astar(STARTNODE, ENDNODE)
+    STARTNODE = NODES[0]
+    ENDNODE = NODES[89]
+
+    STARTNODE.start = True
+    ENDNODE.end = True
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
     CLOCK.tick(60)
-    for event in pygame.event.get():  # User did something
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if pygame.key.get_pressed()[pygame.K_RETURN]:
+                AStar.astar(STARTNODE, ENDNODE)
+                print "Worked"  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             DONE = True  # Flag that we are DONE so we exit this loop
 
+    for x in AStar.retrace(ENDNODE):
+        x.check = True
     # All drawing code happens after the for loop and but
     # inside the main while DONE==False loop.
-
     # Clear the SCREEN and set the SCREEN background
     SCREEN.fill(WHITE)
     # Draw a circle
