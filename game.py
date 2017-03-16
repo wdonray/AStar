@@ -64,7 +64,7 @@ while not DONE:
     AStar.astar(STARTNODE, ENDNODE)
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    CLOCK.tick(1)
+    CLOCK.tick(60)
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             DONE = True  # Flag that we are DONE so we exit this loop

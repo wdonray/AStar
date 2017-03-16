@@ -1,6 +1,7 @@
 """DrawableNode"""
 import pygame
 
+
 class DrawableNode(object):
     '''drawable node'''
 

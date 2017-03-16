@@ -6,8 +6,8 @@ def retrace(node):
     path = []
     while node.parent is not None:
         path.append(node)
-        node = node.parent
         node.check = True
+        node = node.parent
     return path
 
 
