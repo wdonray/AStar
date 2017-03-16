@@ -6,7 +6,6 @@ def retrace(node):
     path = []
     while node.parent is not None:
         path.append(node)
-        node.check = True
         node = node.parent
     return path
 
@@ -41,7 +40,7 @@ def astar(start, goal):
         for node in current.adjacents:
             if node in closed or node.walkable is False:
                 continue
-            tentative_g = node.g_cost + dist(current, node)
+            tentative_g = current.g_cost + dist(current, node)
             if node not in open_:
                 open_.append(node)
             elif tentative_g >= node.g_cost:

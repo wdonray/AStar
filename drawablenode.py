@@ -6,7 +6,6 @@ class DrawableNode(object):
     '''drawable node'''
 
     def __init__(self, graphnode):
-        # astar vars
         posx = graphnode.value[0]
         posy = graphnode.value[1]
         self.adjacents = []
@@ -15,11 +14,11 @@ class DrawableNode(object):
         self._start = False
         self._end = False
         self._check = False
+        self._select = False
         self._gcost = 0
         self._hcost = 0
         self._fcost = 0
 
-        # drawing vars
         size = 30
         self.width = size
         self.height = size
@@ -35,7 +34,21 @@ class DrawableNode(object):
         self.dirty = False
         self._color = (125, 255, 255)
 
-    # properties
+
+    @property
+    def select(self):
+        """check"""
+        return self._select
+
+    @check.setter
+    def check(self, value):
+        white = (255, 255, 255)
+        maroon = (128, 0, 0)
+        self._check = value
+        if value is False:
+            self.color = white
+        else:
+            self.color = maroon
 
     @property
     def check(self):
@@ -90,14 +103,12 @@ class DrawableNode(object):
     @walkable.setter
     def walkable(self, value):
         white = (255, 255, 255)
-        red = (255, 0, 0)
+        black = (0, 0, 0)
         self._walkable = value
-        # if it's set to walkable change to white
-        # this will mark it as undirty
         if value:
-            self.color = white
+            self.color = black
         else:
-            self.color = red
+            self.color = white
 
     @property
     def f_cost(self):
@@ -134,7 +145,6 @@ class DrawableNode(object):
         return self._color
 
     @color.setter
-    # manual setting of colors will mark them dirty so they will stay
     def color(self, value):
         red = (255, 0, 0)
         if value is red:
@@ -160,22 +170,13 @@ class DrawableNode(object):
         self.surface.fill(self._color)
         screen.blit(self.surface, self.screenpos)
         if self.walkable:
-            # create some text to go on the fill
-
-            # info to display
-
-            # render the text
 
             textf = font.render("P= " + str(self.index), True, (1, 1, 1))
             textg = font.render("" + str(), True, (1, 1, 1))
 
-            # set it's position/parent
             textfpos = (self.xpos, self.ypos)  # top left
             textgpos = (self.xpos, self.ypos + self.height - 10)  # bot left
 
-            # center it
-
-            # draw the square
             if init and text:
                 screen.blit(textf, textfpos)
                 screen.blit(textg, textgpos)

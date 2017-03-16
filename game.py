@@ -1,4 +1,3 @@
-# Import a library of functions called 'pygame'
 import pygame
 import AStar
 import graph as graphs
@@ -6,10 +5,10 @@ from graph import Graph
 from graph import Node
 import drawablenode
 from drawablenode import *
-# Initialize the game engine
+
 pygame.init()
 
-# Define the colors we will use in RGB format
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
@@ -22,7 +21,7 @@ WIDTH = 30
 HEIGHT = 30
 SCREEN_WIDTH = COLS * (PAD[0] + WIDTH) + PAD[1]
 SCREEN_HEIGHT = ROWS * (PAD[0] + HEIGHT) + PAD[1]
-# Set the height and width of the SCREEN
+
 
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 SEARCH_SPACE = Graph([ROWS, COLS])
@@ -35,60 +34,57 @@ for i in range(ROWS):
 
 pygame.display.set_caption("Example code for the draw module")
 
-# Loop until the user clicks the close button.
 DONE = False
 CLOCK = pygame.time.Clock()
 
 pygame.font.init()
-FONT1 = pygame.font.Font(None, 12)
-FONT2 = pygame.font.Font(None, 28)
+
+FONT = pygame.font.Font(None, 12)
+
 for n in NODES:
     for n_ in graphs.get_neighbors(n, SEARCH_SPACE):
         for nods in NODES:
             if n_.value[0] == nods.value[0] and n_.value[1] == nods.value[1]:
                 n.adjacents.append(nods)
+
+NODES[11].walkable = False
+NODES[12].walkable = False
 NODES[13].walkable = False
 NODES[14].walkable = False
 NODES[15].walkable = False
-NODES[23].walkable = False
-NODES[25].walkable = False
-NODES[33].walkable = False
-
+NODES[16].walkable = False
+NODES[21].walkable = False
+NODES[31].walkable = False
+NODES[41].walkable = False
+NODES[51].walkable = False
+NODES[61].walkable = False
 
 
 while not DONE:
-    STARTNODE = NODES[0]
-    ENDNODE = NODES[89]
-
-    STARTNODE.start = True
+    CURRENTNODE = NODES[0]
+    ENDNODE = NODES[99]
+    SELECTEDNODE = NODES[0]
+    
+    CURRENTNODE.start = True
     ENDNODE.end = True
-    # This limits the while loop to a max of 10 times per second.
-    # Leave this out and we will use all CPU we can.
-    CLOCK.tick(60)
+
+    CLOCK.tick(30)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_RETURN]:
-                AStar.astar(STARTNODE, ENDNODE)
-                print "Worked"  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            DONE = True  # Flag that we are DONE so we exit this loop
-
+                AStar.astar(CURRENTNODE, ENDNODE)
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                DONE = True
     for x in AStar.retrace(ENDNODE):
         x.check = True
-    # All drawing code happens after the for loop and but
-    # inside the main while DONE==False loop.
-    # Clear the SCREEN and set the SCREEN background
-    SCREEN.fill(WHITE)
-    # Draw a circle
-    for i in NODES:
-        i.draw(SCREEN, FONT1)
 
-    # Go ahead and update the SCREEN with what we've drawn.
-    # This MUST happen after all the other drawing commands.
+    SCREEN.fill(BLACK)
+    for i in NODES:
+        i.draw(SCREEN, FONT)
+
     BG = pygame.Surface((SCREEN.get_size()[0] / 3, SCREEN.get_size()[1] / 3))
     BG.fill(BLACK)
     TEXTRECT = BG.get_rect()
     pygame.display.flip()
 
-# Be IDLE friendly
 pygame.quit()

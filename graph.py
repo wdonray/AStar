@@ -46,16 +46,16 @@ def get_neighbors(node, graph):
     '''get neighbors for a node'''
 
     right = [1, 0]
-    top_right = [1, 1]
+    top_right = [1, -1]
 
-    top = [0, 1]
-    top_left = [-1, 1]
+    top = [0, -1]
+    top_left = [-1, -1]
 
     left = [-1, 0]
-    bottom_left = [-1, -1]
+    bottom_left = [-1, 1]
 
-    bottom = [0, -1]
-    bottom_right = [1, -1]
+    bottom = [0, 1]
+    bottom_right = [1, 1]
     neighbors = []
     dirs = [right, top_right, top, top_left,
             left, bottom_left, bottom, bottom_right]
