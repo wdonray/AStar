@@ -5,7 +5,7 @@ import pygame
 class DrawableNode(object):
     '''drawable node'''
 
-    def __init__(self, graphnode):
+    def __init__(self, graphnode, ident):
         posx = graphnode.value[0]
         posy = graphnode.value[1]
         self.adjacents = []
@@ -22,8 +22,10 @@ class DrawableNode(object):
         size = 30
         self.width = size
         self.height = size
-        self.identification = id
+        self.identification = ident
         self.index = (posx, posy)
+        self.test_x = posx
+        self.test_y = posy
         self.value = self.index
         self.xpos = (5 + self.width) * posx + 5
         self.ypos = (5 + self.height) * posy + 5
@@ -40,15 +42,15 @@ class DrawableNode(object):
         """check"""
         return self._select
 
-    @check.setter
-    def check(self, value):
+    @select.setter
+    def select(self, value):
         white = (255, 255, 255)
-        maroon = (128, 0, 0)
-        self._check = value
+        yellow = (255, 255, 0)
+        self._select = value
         if value is False:
             self.color = white
         else:
-            self.color = maroon
+            self.color = yellow
 
     @property
     def check(self):
@@ -57,11 +59,10 @@ class DrawableNode(object):
 
     @check.setter
     def check(self, value):
-        white = (255, 255, 255)
         maroon = (128, 0, 0)
         self._check = value
         if value is False:
-            self.color = white
+            self.color = (125, 255, 255)
         else:
             self.color = maroon
 
@@ -103,10 +104,9 @@ class DrawableNode(object):
     @walkable.setter
     def walkable(self, value):
         white = (255, 255, 255)
-        black = (0, 0, 0)
         self._walkable = value
         if value:
-            self.color = black
+            self.color = (125, 255, 255)
         else:
             self.color = white
 
@@ -171,8 +171,8 @@ class DrawableNode(object):
         screen.blit(self.surface, self.screenpos)
         if self.walkable:
 
-            textf = font.render("P= " + str(self.index), True, (1, 1, 1))
-            textg = font.render("" + str(), True, (1, 1, 1))
+            textf = font.render("P " + str(self.index), True, (1, 1, 1))
+            textg = font.render("ID " + str(self.identification), True, (1, 1, 1))
 
             textfpos = (self.xpos, self.ypos)  # top left
             textgpos = (self.xpos, self.ypos + self.height - 10)  # bot left
