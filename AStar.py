@@ -4,9 +4,10 @@
 def retrace(node):
     '''Retrace Steps'''
     path = []
-    while node.parent is not None:
-        path.append(node)
-        node = node.parent
+    iterator = node
+    while iterator is not None:
+        path.append(iterator)
+        iterator = iterator.parent
     return path
 
 
@@ -29,7 +30,7 @@ def astar(start, goal):
     start.g_cost = 0
     start.f_cost = start.g_cost + start.h_cost
     open_.append(start)
-    while open_ is not None:
+    while len(open_) != 0:
         open_ = sorted(open_, key=lambda x: x.f_cost)
         current = open_[0]
         open_.remove(current)
