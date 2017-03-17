@@ -41,7 +41,9 @@ mouse_listeners = []
 for i in range(ROWS):  # Creates Rows and Cols and adds a node and a id to each
     for j in range(COLS):
         node = SEARCH_SPACE.get_node([i, j])
-        NODES.append(DrawableNode(node, COUNT))
+        n = DrawableNode(node, COUNT)
+        NODES.append(n)
+        mouse_listeners.append(n.printpos)
         COUNT += 1
 
 pygame.display.set_caption("A Star Example Created By Donray Williams")
@@ -72,7 +74,6 @@ while not DONE:
 
     CLOCK.tick(60)  # FPS
     pygame.mouse.set_cursor(*pygame.cursors.diamond)  # Useless Cursor
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -138,16 +139,26 @@ while not DONE:
                     CURRENTNODE = NODES[0]
                     ENDNODE = NODES[ROWS * COLS - 1]
                     SELECTEDNODE = NODES[0]
+            # Close Game
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                DONE = True
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             for callback in mouse_listeners:
                 cb = callback(pygame.mouse.get_pos())
                 if cb:
                     if event.button == 1:
-                        print "IT WORKED"
-            # Close Game
-            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                DONE = True
+                        CURRENTNODE = cb
+                    elif event.button == 3:
+                        ENDNODE = cb
+                    elif event.button == 2:
+                        PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
+                        for n in NODES:
+                            n.parent = None
+                            n.g_cost = 0
+                            n.h_cost = 0
+                            n.f_cost = 0
+
 
     SCREEN.fill(BLACK)  # Black Background
 
@@ -173,7 +184,7 @@ while not DONE:
     pygame.draw.rect(SCREEN, BLUE,
                      [CURRENTNODE.xpos, CURRENTNODE.ypos, CURRENTNODE.width, CURRENTNODE.height])
 
-    nodedrawline(CURRENTNODE, ENDNODE)
+    #nodedrawline(CURRENTNODE, ENDNODE)
 
     BG = pygame.Surface((SCREEN.get_size()[0] / 3, SCREEN.get_size()[1] / 3))
     # BG.fill(BLACK)

@@ -112,9 +112,8 @@ class DrawableNode(object):
         y = mousepos[1]
         if (x > self.rect.left and x < self.rect.right and y > self.rect.top and y <
                 self.rect.bottom):
-            print self.identification
-            p = self
-        return p
+           # print self.identification
+            return self
 
     def draw(self, screen, font, init=True, text=True):
         """Draw"""
