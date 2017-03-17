@@ -140,9 +140,10 @@ while not DONE:
                      [SELECTEDNODE.xpos, SELECTEDNODE.ypos, SELECTEDNODE.width,
                       SELECTEDNODE.height])
     # Draw Path
-    for node in PATH:
-        pygame.draw.rect(SCREEN, MAROON, pygame.Rect(
-            node.xpos, node.ypos, node.width, node.height), 0)
+    if PATH is not None:
+        for node in PATH:
+            pygame.draw.rect(SCREEN, MAROON, pygame.Rect(
+                node.xpos, node.ypos, node.width, node.height), 0)
 
     # Draw End Node
     pygame.draw.rect(SCREEN, RED,
