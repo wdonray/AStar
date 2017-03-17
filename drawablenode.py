@@ -102,6 +102,20 @@ class DrawableNode(object):
 
         self._color = value
 
+    def checkpos(self):
+        """Pos"""
+        return (self.xpos, self.ypos)
+
+    def printpos(self, mousepos):
+        """Test"""
+        x = mousepos[0]
+        y = mousepos[1]
+        if (x > self.rect.left and x < self.rect.right and y > self.rect.top and y <
+                self.rect.bottom):
+            print self.identification
+            p = self
+        return p
+
     def draw(self, screen, font, init=True, text=True):
         """Draw"""
         self.surface.fill(self._color)

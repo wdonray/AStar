@@ -1,6 +1,6 @@
 """The Game"""
 import pygame
-import AStar as PathFinding
+from AStarAlgo import PathFinding
 import graph as graphs
 from graph import Graph
 from graph import Node
@@ -28,8 +28,16 @@ SCREEN_HEIGHT = ROWS * (PAD[0] + HEIGHT) + PAD[1]
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 SEARCH_SPACE = Graph([ROWS, COLS])
 
+
+def nodedrawline(start, dest):
+    """drawline"""
+    pygame.draw.line(SCREEN, BLACK, (start.xpos,
+                                     start.ypos), (dest.xpos, dest.ypos), 12)
+
+
 NODES = []
 COUNT = 0
+mouse_listeners = []
 for i in range(ROWS):  # Creates Rows and Cols and adds a node and a id to each
     for j in range(COLS):
         node = SEARCH_SPACE.get_node([i, j])
@@ -55,10 +63,16 @@ for n in NODES:  # Creates Adjacents
 CURRENTNODE = NODES[0]
 ENDNODE = NODES[ROWS * COLS - 1]
 SELECTEDNODE = NODES[0]
+
 PATH = []
+
+Pathfinding_ = PathFinding()
+
 while not DONE:
+
     CLOCK.tick(60)  # FPS
     pygame.mouse.set_cursor(*pygame.cursors.diamond)  # Useless Cursor
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -68,7 +82,7 @@ while not DONE:
             # Begin Algorith (MemoryError: Error with created a certain amount
             # of starting points)
             if pygame.key.get_pressed()[pygame.K_RETURN]:
-                PATH = PathFinding.astar(CURRENTNODE, ENDNODE)
+                PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                 for n in NODES:
                     n.parent = None
                     n.g_cost = 0
@@ -125,6 +139,12 @@ while not DONE:
                     ENDNODE = NODES[ROWS * COLS - 1]
                     SELECTEDNODE = NODES[0]
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for callback in mouse_listeners:
+                cb = callback(pygame.mouse.get_pos())
+                if cb:
+                    if event.button == 1:
+                        print "IT WORKED"
             # Close Game
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 DONE = True
@@ -139,6 +159,7 @@ while not DONE:
     pygame.draw.rect(SCREEN, YELLOW,
                      [SELECTEDNODE.xpos, SELECTEDNODE.ypos, SELECTEDNODE.width,
                       SELECTEDNODE.height])
+
     # Draw Path
     if PATH is not None:
         for node in PATH:
@@ -152,9 +173,12 @@ while not DONE:
     pygame.draw.rect(SCREEN, BLUE,
                      [CURRENTNODE.xpos, CURRENTNODE.ypos, CURRENTNODE.width, CURRENTNODE.height])
 
+    nodedrawline(CURRENTNODE, ENDNODE)
+
     BG = pygame.Surface((SCREEN.get_size()[0] / 3, SCREEN.get_size()[1] / 3))
     # BG.fill(BLACK)
     # TEXTRECT = BG.get_rect()
     pygame.display.flip()
+
 
 pygame.quit()
