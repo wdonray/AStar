@@ -9,6 +9,7 @@ from drawablenode import *
 
 pygame.init()
 
+PINK = (255, 153, 255)
 MAROON = (128, 0, 0)
 YELLOW = (255, 255, 0)
 BLACK = (0, 0, 0)
@@ -146,9 +147,9 @@ while not DONE:
                     n.g_cost = 0
                     n.f_cost = 0
                     n.h_cost = 0
-                    CURRENTNODE = NODES[0]
-                    ENDNODE = NODES[ROWS * COLS - 1]
-                    SELECTEDNODE = NODES[0]
+                CURRENTNODE = NODES[0]
+                ENDNODE = NODES[ROWS * COLS - 1]
+                SELECTEDNODE = NODES[0]
             # Close Game
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 DONE = True
@@ -178,10 +179,12 @@ while not DONE:
                             n.h_cost = 0
                             n.f_cost = 0
                     elif event.button == 2:
-                        if NODES[cb.identification].walkable is True:
-                            NODES[cb.identification].walkable = False
-                        elif NODES[cb.identification].walkable is False:
-                            NODES[cb.identification].walkable = True
+                        if (NODES[cb.identification] is not CURRENTNODE and
+                                NODES[cb.identification] is not ENDNODE):
+                            if NODES[cb.identification].walkable is True:
+                                NODES[cb.identification].walkable = False
+                            elif NODES[cb.identification].walkable is False:
+                                NODES[cb.identification].walkable = True
 
     SCREEN.fill(BLACK)  # Black Background
 
@@ -199,7 +202,7 @@ while not DONE:
                 node.xpos, node.ypos, node.width, node.height), 0)
 
     # Draw End Node
-    nodedrawrect(RED, ENDNODE)
+    nodedrawrect(PINK, ENDNODE)
     # Draw Start Node
     nodedrawrect(BLUE, CURRENTNODE)
 
