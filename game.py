@@ -34,6 +34,16 @@ def nodedrawline(start, dest):
     pygame.draw.line(SCREEN, BLACK, (start.xpos,
                                      start.ypos), (dest.xpos, dest.ypos), 12)
 
+    """pygame.draw.rect(SCREEN, YELLOW,
+                     [SELECTEDNODE.xpos, SELECTEDNODE.ypos, SELECTEDNODE.width,
+                      SELECTEDNODE.height])"""
+
+
+def nodedrawrect(color, thenode):
+    """draw rect"""
+    pygame.draw.rect(SCREEN, color, [thenode.xpos, thenode.ypos, thenode.width,
+                                     thenode.height])
+
 
 NODES = []
 COUNT = 0
@@ -95,12 +105,12 @@ while not DONE:
                     SELECTEDNODE.identification + ROWS <= ROWS * COLS - 1):
                 SELECTEDNODE = NODES[SELECTEDNODE.identification + ROWS]
 
-             # Move HightLighted Node left
+            # Move HightLighted Node left
             if (pygame.key.get_pressed()[pygame.K_LEFT] and
                     SELECTEDNODE.identification - ROWS >= 0):
                 SELECTEDNODE = NODES[SELECTEDNODE.identification - ROWS]
 
-             # Move HightLighted Node up
+            # Move HightLighted Node up
             if (pygame.key.get_pressed()[pygame.K_UP] and
                     SELECTEDNODE.identification > 0):
                 SELECTEDNODE = NODES[SELECTEDNODE.identification - 1]
@@ -147,18 +157,31 @@ while not DONE:
             for callback in mouse_listeners:
                 cb = callback(pygame.mouse.get_pos())
                 if cb:
-                    if event.button == 1:
-                        CURRENTNODE = cb
-                    elif event.button == 3:
-                        ENDNODE = cb
-                    elif event.button == 2:
+                    if event.button == 1 and NODES[cb.identification].walkable is True:
+                        if NODES[cb.identification] is not ENDNODE:
+                            CURRENTNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
+                        print cb.identification
                         for n in NODES:
                             n.parent = None
                             n.g_cost = 0
                             n.h_cost = 0
                             n.f_cost = 0
-
+                    elif event.button == 3 and NODES[cb.identification].walkable is True:
+                        if NODES[cb.identification] is not CURRENTNODE:
+                            ENDNODE = cb
+                        PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
+                        print cb.identification
+                        for n in NODES:
+                            n.parent = None
+                            n.g_cost = 0
+                            n.h_cost = 0
+                            n.f_cost = 0
+                    elif event.button == 2:
+                        if NODES[cb.identification].walkable is True:
+                            NODES[cb.identification].walkable = False
+                        elif NODES[cb.identification].walkable is False:
+                            NODES[cb.identification].walkable = True
 
     SCREEN.fill(BLACK)  # Black Background
 
@@ -167,9 +190,7 @@ while not DONE:
         i.draw(SCREEN, FONT)
 
     # Draw Selected Node
-    pygame.draw.rect(SCREEN, YELLOW,
-                     [SELECTEDNODE.xpos, SELECTEDNODE.ypos, SELECTEDNODE.width,
-                      SELECTEDNODE.height])
+    nodedrawrect(YELLOW, SELECTEDNODE)
 
     # Draw Path
     if PATH is not None:
@@ -178,13 +199,11 @@ while not DONE:
                 node.xpos, node.ypos, node.width, node.height), 0)
 
     # Draw End Node
-    pygame.draw.rect(SCREEN, RED,
-                     [ENDNODE.xpos, ENDNODE.ypos, ENDNODE.width, ENDNODE.height])
+    nodedrawrect(RED, ENDNODE)
     # Draw Start Node
-    pygame.draw.rect(SCREEN, BLUE,
-                     [CURRENTNODE.xpos, CURRENTNODE.ypos, CURRENTNODE.width, CURRENTNODE.height])
+    nodedrawrect(BLUE, CURRENTNODE)
 
-    #nodedrawline(CURRENTNODE, ENDNODE)
+    # nodedrawline(CURRENTNODE, ENDNODE)
 
     BG = pygame.Surface((SCREEN.get_size()[0] / 3, SCREEN.get_size()[1] / 3))
     # BG.fill(BLACK)
