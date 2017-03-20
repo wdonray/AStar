@@ -47,6 +47,17 @@ def nodedrawrect(color, thenode):
 
 
 NODES = []
+
+
+def clear():
+    """Clear"""
+    for alln in NODES:
+        alln.parent = None
+        alln.g_cost = 0
+        alln.h_cost = 0
+        alln.f_cost = 0
+
+
 COUNT = 0
 mouse_listeners = []
 for i in range(ROWS):  # Creates Rows and Cols and adds a node and a id to each
@@ -95,11 +106,7 @@ while not DONE:
             # of starting points)
             if pygame.key.get_pressed()[pygame.K_RETURN]:
                 PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
-                for n in NODES:
-                    n.parent = None
-                    n.g_cost = 0
-                    n.h_cost = 0
-                    n.f_cost = 0
+                clear()
 
             # Move HightLighted Node right
             if (pygame.key.get_pressed()[pygame.K_RIGHT] and
@@ -125,11 +132,13 @@ while not DONE:
             if (pygame.key.get_pressed()[pygame.K_e] and
                     NODES[SELECTEDNODE.identification].walkable is True):
                 CURRENTNODE = SELECTEDNODE
+                PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
 
             # Place end node at pos of selected node
             if (pygame.key.get_pressed()[pygame.K_LSHIFT] and
                     NODES[SELECTEDNODE.identification].walkable is True):
                 ENDNODE = SELECTEDNODE
+                PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
 
             # Creates Walls
             if pygame.key.get_pressed()[pygame.K_w]:
@@ -141,15 +150,8 @@ while not DONE:
             # Clears Screen and sets Current, End, and Selected Node back to
             # original pos
             if pygame.key.get_pressed()[pygame.K_c]:
-                for n in NODES:
-                    n.walkable = True
-                    n.parent = None
-                    n.g_cost = 0
-                    n.f_cost = 0
-                    n.h_cost = 0
-                CURRENTNODE = NODES[0]
-                ENDNODE = NODES[ROWS * COLS - 1]
-                SELECTEDNODE = NODES[0]
+                clear()
+
             # Close Game
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 DONE = True
@@ -163,21 +165,15 @@ while not DONE:
                             CURRENTNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                         print cb.identification
-                        for n in NODES:
-                            n.parent = None
-                            n.g_cost = 0
-                            n.h_cost = 0
-                            n.f_cost = 0
+                        clear()
+
                     elif event.button == 3 and NODES[cb.identification].walkable is True:
                         if NODES[cb.identification] is not CURRENTNODE:
                             ENDNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                         print cb.identification
-                        for n in NODES:
-                            n.parent = None
-                            n.g_cost = 0
-                            n.h_cost = 0
-                            n.f_cost = 0
+                        clear()
+
                     elif event.button == 2:
                         if (NODES[cb.identification] is not CURRENTNODE and
                                 NODES[cb.identification] is not ENDNODE):
