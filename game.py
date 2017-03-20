@@ -29,15 +29,15 @@ SCREEN_HEIGHT = ROWS * (PAD[0] + HEIGHT) + PAD[1]
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 SEARCH_SPACE = Graph([ROWS, COLS])
 
+# Draws each line
+
 
 def nodedrawline(start, dest):
     """drawline"""
     pygame.draw.line(SCREEN, BLACK, (start.xpos,
                                      start.ypos), (dest.xpos, dest.ypos), 12)
 
-    """pygame.draw.rect(SCREEN, YELLOW,
-                     [SELECTEDNODE.xpos, SELECTEDNODE.ypos, SELECTEDNODE.width,
-                      SELECTEDNODE.height])"""
+# Draws each rect
 
 
 def nodedrawrect(color, thenode):
@@ -49,7 +49,7 @@ def nodedrawrect(color, thenode):
 NODES = []
 
 
-def clear():
+def clear():  # Clears each list after running the algorithm
     """Clear"""
     for alln in NODES:
         alln.parent = None
@@ -65,7 +65,7 @@ for i in range(ROWS):  # Creates Rows and Cols and adds a node and a id to each
         node = SEARCH_SPACE.get_node([i, j])
         n = DrawableNode(node, COUNT)
         NODES.append(n)
-        mouse_listeners.append(n.printpos)
+        mouse_listeners.append(n.printpos)  # Adds each click to the list
         COUNT += 1
 
 pygame.display.set_caption("A Star Example Created By Donray Williams")
@@ -157,23 +157,27 @@ while not DONE:
                 DONE = True
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # For each mouse click get the pos
             for callback in mouse_listeners:
                 cb = callback(pygame.mouse.get_pos())
                 if cb:
+                    # If its left click and its walkable set to currentnode and
+                    # run algorithm
                     if event.button == 1 and NODES[cb.identification].walkable is True:
                         if NODES[cb.identification] is not ENDNODE:
                             CURRENTNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                         print cb.identification
                         clear()
-
+                    # If its right click and its walkable set to endnode and
+                    # run algorithm
                     elif event.button == 3 and NODES[cb.identification].walkable is True:
                         if NODES[cb.identification] is not CURRENTNODE:
                             ENDNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                         print cb.identification
                         clear()
-
+                    # If its middle click set the pos to a wall
                     elif event.button == 2:
                         if (NODES[cb.identification] is not CURRENTNODE and
                                 NODES[cb.identification] is not ENDNODE):
