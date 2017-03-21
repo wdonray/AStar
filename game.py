@@ -76,7 +76,7 @@ CLOCK = pygame.time.Clock()
 pygame.font.init()
 
 FONT = pygame.font.Font(None, 12)
-
+FONT2 = pygame.font.Font(None, 115)
 for n in NODES:  # Creates Adjacents
     for n_ in graphs.get_neighbors(n, SEARCH_SPACE):
         for nods in NODES:
@@ -92,6 +92,7 @@ PATH = []
 
 Pathfinding_ = PathFinding()
 
+
 while not DONE:
 
     CLOCK.tick(60)  # FPS
@@ -102,8 +103,7 @@ while not DONE:
             DONE = True
         if event.type == pygame.KEYDOWN:
 
-            # Begin Algorith (MemoryError: Error with created a certain amount
-            # of starting points)
+            # Begin Algorith
             if pygame.key.get_pressed()[pygame.K_RETURN]:
                 PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
                 clear()
@@ -144,13 +144,8 @@ while not DONE:
             if pygame.key.get_pressed()[pygame.K_w]:
                 if NODES[SELECTEDNODE.identification].walkable is True:
                     NODES[SELECTEDNODE.identification].walkable = False
-                elif NODES[SELECTEDNODE.identification].walkable is False:
+                else:
                     NODES[SELECTEDNODE.identification].walkable = True
-
-            # Clears Screen and sets Current, End, and Selected Node back to
-            # original pos
-            if pygame.key.get_pressed()[pygame.K_c]:
-                clear()
 
             # Close Game
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
@@ -163,7 +158,8 @@ while not DONE:
                 if cb:
                     # If its left click and its walkable set to currentnode and
                     # run algorithm
-                    if event.button == 1 and NODES[cb.identification].walkable is True:
+                    if (event.button == 1 and
+                            NODES[cb.identification].walkable is True):
                         if NODES[cb.identification] is not ENDNODE:
                             CURRENTNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
@@ -171,7 +167,8 @@ while not DONE:
                         clear()
                     # If its right click and its walkable set to endnode and
                     # run algorithm
-                    elif event.button == 3 and NODES[cb.identification].walkable is True:
+                    elif (event.button == 3 and
+                          NODES[cb.identification].walkable is True):
                         if NODES[cb.identification] is not CURRENTNODE:
                             ENDNODE = cb
                         PATH = Pathfinding_.astar(CURRENTNODE, ENDNODE)
@@ -183,7 +180,7 @@ while not DONE:
                                 NODES[cb.identification] is not ENDNODE):
                             if NODES[cb.identification].walkable is True:
                                 NODES[cb.identification].walkable = False
-                            elif NODES[cb.identification].walkable is False:
+                            else:
                                 NODES[cb.identification].walkable = True
 
     SCREEN.fill(BLACK)  # Black Background
@@ -206,12 +203,6 @@ while not DONE:
     # Draw Start Node
     nodedrawrect(BLUE, CURRENTNODE)
 
-    # nodedrawline(CURRENTNODE, ENDNODE)
-
-    BG = pygame.Surface((SCREEN.get_size()[0] / 3, SCREEN.get_size()[1] / 3))
-    # BG.fill(BLACK)
-    # TEXTRECT = BG.get_rect()
     pygame.display.flip()
-
 
 pygame.quit()
