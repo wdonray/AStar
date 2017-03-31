@@ -1,0 +1,59 @@
+#Key
+#G = Goal Node
+#S = Start Node
+#W = Non-walkable Node or Wall
+#Test cases are broken up with the {}
+#Each test case has the following properties
+#name - name of the test
+#case - case we are testing against
+#answer - correct path to get from the start to goal
+#using '#' means this is a comment
+
+#Test1
+#Test to see if a path can be found when the nodes are three spaces apart
+#and in the middle of them is a 1 x 3 impassable wall
+{
+	name:Test1
+	case:S:43;G:47;W:35;W:45;W:55;
+	answer:[47][36][25][34][44][43]
+}
+
+
+#Test2
+#Test to see if the nodes can travel from one corner to the another in this cases
+#the start node is 0 and the goal is 99
+{
+	name:Test2
+	case:S:0;G:99;
+	answer:[99][88][77][66][55][44][33][22][11][0]
+}
+
+
+#Test3
+#Test if the goal node and start node are next to each other
+#Testing to ensure the horizontal or vertical gscore is set properly
+{
+	name:Test3
+	case:S:1;G:0;
+	answer:[0][1]
+}
+
+
+#Test4
+#Test if the goal node and start node are next to each other
+#Testing to ensure the diagonal gscore is set properly
+{
+	name:Test4
+	case:S:11;G:0;
+	answer:[0][11]
+}
+
+
+#Test5
+#Test if the start and goal node are the same
+{
+	name:Test5
+	case:S:0;G:0;
+	answer:[0]
+}
+

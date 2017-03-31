@@ -6,6 +6,7 @@ from graph import Graph
 from graph import Node
 import drawablenode
 from drawablenode import *
+import AstarTest as ATest
 
 pygame.init()
 
@@ -204,5 +205,6 @@ while not DONE:
     nodedrawrect(BLUE, CURRENTNODE)
 
     pygame.display.flip()
-
+testing = ATest.UnitTest("test.txt")
+testing.testastar(Pathfinding_.astar)
 pygame.quit()
