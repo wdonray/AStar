@@ -7,11 +7,11 @@ class PathFinding(object):
     def __init__(self):
         """__init__"""
 
-    def retrace(self, node):
+    def retrace(self, start, node):
         '''Retrace Steps'''
         path = []
         iterator = node
-        while iterator is not None:
+        while iterator is not start:
             path.append(iterator)
             iterator = iterator.parent
         return path
@@ -39,7 +39,7 @@ class PathFinding(object):
             open_.remove(current)
             closed.append(current)
             if current == goal:
-                camefrom = self.retrace(current)
+                camefrom = self.retrace(start, current)
                 return camefrom
             for node in current.adjacents:
                 if node in closed or node.walkable is False:

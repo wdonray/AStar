@@ -119,7 +119,7 @@ class DrawableNode(object):
         """Draw"""
         self.surface.fill(self._color)
         screen.blit(self.surface, self.screenpos)
-        """"if self.walkable:
+        if self.walkable:
 
             textf = font.render("P " + str(self.index), True, (1, 1, 1))
             textg = font.render(
@@ -130,4 +130,4 @@ class DrawableNode(object):
 
             if init and text:
                 screen.blit(textf, textfpos)
-                screen.blit(textg, textgpos)"""
+                screen.blit(textg, textgpos)
