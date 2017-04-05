@@ -1,11 +1,12 @@
-"""DrawableNode"""
+"""DrawableNode."""
 import pygame
 
 
 class DrawableNode(object):
-    '''drawable node'''
+    """Drawable node."""
 
     def __init__(self, graphnode, ident):
+        """__init__."""
         posx = graphnode.value[0]
         posy = graphnode.value[1]
         self.adjacents = []
@@ -32,7 +33,7 @@ class DrawableNode(object):
 
     @property
     def check(self):
-        """check"""
+        """Check."""
         return self._check
 
     @check.setter
@@ -46,7 +47,7 @@ class DrawableNode(object):
 
     @property
     def walkable(self):
-        """walkable"""
+        """Walkable."""
         return self._walkable
 
     @walkable.setter
@@ -60,17 +61,17 @@ class DrawableNode(object):
 
     @property
     def f_cost(self):
-        """F Cost"""
+        """F Cost."""
         return self._fcost
 
     @property
     def g_cost(self):
-        """G Cost"""
+        """G Cost."""
         return self._gcost
 
     @property
     def h_cost(self):
-        """H Cost"""
+        """H Cost."""
         return self._hcost
 
     @f_cost.setter
@@ -89,7 +90,7 @@ class DrawableNode(object):
 
     @property
     def color(self):
-        """Color"""
+        """Color."""
         return self._color
 
     @color.setter
@@ -103,20 +104,20 @@ class DrawableNode(object):
         self._color = value
 
     def checkpos(self):
-        """Pos"""
+        """Pos."""
         return (self.xpos, self.ypos)
 
     def printpos(self, mousepos):
-        """Test"""
-        x = mousepos[0]
-        y = mousepos[1]
-        if (x > self.rect.left and x < self.rect.right and y > self.rect.top and y <
+        """Get Mos Pos."""
+        xpos = mousepos[0]
+        ypos = mousepos[1]
+        if (xpos > self.rect.left and xpos < self.rect.right and ypos > self.rect.top and ypos <
                 self.rect.bottom):
            # print self.identification
             return self
 
     def draw(self, screen, font, init=True, text=True):
-        """Draw"""
+        """Draw."""
         self.surface.fill(self._color)
         screen.blit(self.surface, self.screenpos)
         if self.walkable:
