@@ -13,13 +13,19 @@ def main():
     """The Main."""
     failcount = 0
     passcount = 0
+    totalcount = 0
     for _ in range(100):
         res = testfunc(Pathfinding.astar)
+        totalcount += 1
         if res:
             passcount += 1
         else:
             failcount += 1
-    print str.format('fails {0}, passes {1}', failcount, passcount)
+    print str.format('Passed {0} / {2} , Failed {1} / {2}', passcount, failcount, totalcount)
+    if passcount == totalcount:
+        print "You have passed the test!"
+    else:
+        print "You have failed the test."
 
 if __name__ == '__main__':
     main()
