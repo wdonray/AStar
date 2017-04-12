@@ -1,6 +1,6 @@
 """The ."""
 #import pygame
-
+import os
 import AStarAlgo as Pathfinding
 # import drawablenode
 # import graph as graphs
@@ -8,31 +8,38 @@ from testgraph import testfunc
 # from drawablenode import *
 # from graph import Graph, Node
 
-
 def main():
     """The Main."""
     failcount = 0
     passcount = 0
     running = True
-    while running is True:
-        totalcount = input("Enter number of test you would like to run...")
-        for _ in range(totalcount):
-            res = testfunc(Pathfinding.astar)
-            if res:
-                passcount += 1
+    try:
+        while running is True:
+            totalcount = input("Enter number of test you would like to run...")
+            for _ in range(totalcount):
+                res = testfunc(Pathfinding.astar)
+                if res:
+                    passcount += 1
+                else:
+                    failcount += 1
+            print str.format('Passed {0} / {2} , Failed {1} / {2}',
+                             passcount, failcount, totalcount)
+            if passcount == totalcount:
+                test = raw_input(
+                    "\nYou have passed the test! \nAnother test? (Y / N)")
+                if test is "Y" or test is "y":
+                    running = True
+                    totalcount, passcount, failcount = 0, 0, 0
+                    os.system('cls')
+                else:
+                    running = False
             else:
-                failcount += 1
-        print str.format('Passed {0} / {2} , Failed {1} / {2}', passcount, failcount, totalcount)
-        if passcount == totalcount:
-            test = raw_input("You have passed the test! \nAnother test? (Y / N)")
-            if test is "Y" or test is "y":
-                running = True
-                totalcount, passcount, failcount = 0, 0, 0
-            else:
+                print "You have failed the test."
                 running = False
-        else:
-            print "You have failed the test."
-            running = False
+    except:
+        os.system('cls')
+        main()
+
 if __name__ == '__main__':
     main()
 # pygame.init()
