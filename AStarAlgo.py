@@ -1,5 +1,5 @@
 """A*."""
-import graph as G
+import graphnode as G
 
 
 def retrace(node):
