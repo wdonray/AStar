@@ -8,6 +8,7 @@ from testgraph import testfunc
 # from drawablenode import *
 # from graph import Graph, Node
 
+
 def main():
     """The Main."""
     failcount = 0
@@ -15,7 +16,10 @@ def main():
     running = True
     try:
         while running is True:
-            totalcount = input("Enter number of test you would like to run...")
+            totalcount = input("Enter amount of test you would like to run...")
+            if totalcount < 0:
+                os.system('cls')
+                main()
             for _ in range(totalcount):
                 res = testfunc(Pathfinding.astar)
                 if res:
@@ -39,6 +43,7 @@ def main():
     except:
         os.system('cls')
         main()
+
 
 if __name__ == '__main__':
     main()
